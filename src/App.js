@@ -1,21 +1,35 @@
-import { useState, useEffect } from "react";
-
-function Hello() {
-  useEffect(() => {
-    console.log("hi :)"); // create
-    return () => console.log("bye :("); // destroy
-  }, []);
-
-  return <h1>Hello</h1>;
-}
+import { useState } from "react";
 
 function App() {
-  const [showing, setShowing] = useState(false);
-  const onClick = () => setShowing((prev) => !prev);
+  const [todo, setTodo] = useState("");
+  const [todos, setTodos] = useState([]);
+  const onChange = ({ target: { value } }) => setTodo(value);
+  const onSubmit = (event) => {
+    event.preventDefault();
+    if (todo === "") {
+      return;
+    }
+    setTodos((current) => [todo, ...current]);
+    setTodo("");
+  };
   return (
     <div>
-      {showing ? <Hello /> : null}
-      <button onClick={onClick}>{showing ? "Hide" : "Show"}</button>
+      <h1>My Todos ({todos.length})</h1>
+      <form onSubmit={onSubmit}>
+        <input
+          onChange={onChange}
+          value={todo}
+          type="text"
+          placeholder="Write to do..."
+        />
+        <button>Add To Do</button>
+      </form>
+      <hr />
+      <ul>
+        {todos.map((todo, idx) => (
+          <li key={idx}>{todo}</li>
+        ))}
+      </ul>
     </div>
   );
 }
