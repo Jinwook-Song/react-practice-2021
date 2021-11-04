@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Movie from "../components/Movie";
 
 function Detail() {
@@ -15,12 +15,11 @@ function Detail() {
     } = await response.json();
     setMovie(movie);
     setLoading(false);
-    console.log(movie);
   };
 
   useEffect(() => {
     getMovies();
-  }, []);
+  });
   return (
     <div>
       {loading ? (
